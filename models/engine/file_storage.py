@@ -18,22 +18,21 @@ class FileStorage:
 
     def save(self):
         """convert to json"""
-        with open(self.__file_path, "a+") as f:
+        with open(self.__file_path, "w+") as f:
             new_dict = {}
             for key, value in self.__objects.items():
-                new_dict[key] = self.__objects[key].to_dict()
+                new_dict[key] = value.to_dict()
             f.write(json.dumps(new_dict))
 
     def reload(self):
         """converting JSON to obj -> store obj in dict"""
         try:
             with open(self.__file_path, "r+") as f:
-                str_in = f.read()
-                output = json.loads(str_in)
-        except Exception:
+                output = json.loads(f.read())
+        except Exception as e:
             pass
         else:
             for key, value in output.items():
                 from models.base_model import BaseModel
                 if value['__class__'] == 'BaseModel':
-                    __objects[key] = BaseModel(value)
+                    self.__objects[key] = BaseModel(**value)

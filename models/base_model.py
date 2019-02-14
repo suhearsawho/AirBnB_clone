@@ -2,12 +2,11 @@
 """base class for project"""
 import uuid
 from datetime import datetime
-from . import storage
 
 
 class BaseModel:
     """creates BaseModel class for project"""
-
+    
     def parse(self, dates):
         """parse the ISO format string"""
         year = int(dates[:4])
@@ -21,6 +20,7 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Initialize instance variables"""
+        from models import storage
         self.id = str(uuid.uuid4())
         self.created_at = datetime.today()
         self.updated_at = datetime.today()
@@ -39,6 +39,7 @@ class BaseModel:
     
     def save(self):
         """Update updated_at and call storage.save()"""
+        from models import storage
         self.updated_at = datetime.today()
         storage.save()
     
