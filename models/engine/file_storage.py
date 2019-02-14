@@ -2,6 +2,7 @@
 """recreate a base model"""
 import json
 
+
 class FileStorage:
     """store data in a file"""
     __file_path = "file.json"
