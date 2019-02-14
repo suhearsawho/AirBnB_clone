@@ -13,17 +13,27 @@ class FileStorage:
 
     def new(self, obj):
         """populates dictionary"""
-        __objects[obj.__class__.__name__ + "." + str(BaseModel.id)] = obj
+        key = "{:s}.{:s}".format(obj.__class__.__name__, str(obj.id))
+        self.__objects[key] = obj
 
     def save(self):
         """convert to json"""
-        with open("file.json", "a+") as f:
-            f.append(json.dumps(self.__objects))
+        with open(self.__file_path, "a+") as f:
+            new_dict = {}
+            for key, value in self.__objects.items():
+                new_dict[key] = self.__objects[key].to_dict()
+            f.write(json.dumps(new_dict))
 
     def reload(self):
         """converting JSON to obj -> store obj in dict"""
         try:
-            with open("file.json", "r") as f:
-                self.__objects.update(json.loads(f.read()))
+            with open(self.__file_path, "r+") as f:
+                str_in = f.read()
+                output = json.loads(str_in)
         except Exception:
             pass
+        else:
+            for key, value in output.items():
+                from models.base_model import BaseModel
+                if value['__class__'] == 'BaseModel':
+                    __objects[key] = BaseModel(value)
