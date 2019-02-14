@@ -18,22 +18,22 @@ class FileStorage:
 
     def save(self):
         """convert to json"""
+        # we need to first get the original dictionary stored in the json file
+        # then, add our new addition to this dictionary
         with open(self.__file_path, "a+") as f:
-            new_dict = {}
             for key, value in self.__objects.items():
-                new_dict[key] = self.__objects[key].to_dict()
-            f.write(json.dumps(new_dict))
+                self.__objects[key] = value.to_dict()
+            f.write(json.dumps(self.__objects))
 
     def reload(self):
         """converting JSON to obj -> store obj in dict"""
         try:
             with open(self.__file_path, "r+") as f:
-                str_in = f.read()
-                output = json.loads(str_in)
-        except Exception:
-            pass
+                output = json.loads(f.read())
+        except Exception as e:
+            print(e)
         else:
             for key, value in output.items():
                 from models.base_model import BaseModel
                 if value['__class__'] == 'BaseModel':
-                    __objects[key] = BaseModel(value)
+                    self.__objects[key] = BaseModel(**value)
