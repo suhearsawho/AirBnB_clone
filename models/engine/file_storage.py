@@ -25,8 +25,6 @@ class FileStorage:
         """convert to json"""
         with open(self.__file_path, "w+") as f:
             new_dict = {}
-#            print("self.__objects.values()")
- #           print(self.__objects.values())
             for key, value in self.__objects.items():
                 new_dict[key] = value.to_dict()
                 print("examine")
