@@ -13,6 +13,7 @@ class FileStorage:
 
     def new(self, obj):
         """populates dictionary"""
+
         key = "{:s}.{:s}".format(obj.__class__.__name__, str(obj.id))
         self.__objects[key] = obj
 
@@ -20,6 +21,7 @@ class FileStorage:
         """convert to json"""
         with open(self.__file_path, "w+") as f:
             new_dict = {}
+            print(self.__objects.items())
             for key, value in self.__objects.items():
                 new_dict[key] = value.to_dict()
             f.write(json.dumps(new_dict))
