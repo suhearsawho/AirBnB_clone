@@ -12,14 +12,13 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] != "BaseModel"):
+        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
             print("** class doesn't exist **")
         elif (len(gary) == 1):
             print("** instance id missing **")
         else:
             test_dict = storage.all()
             key = gary[0] + "." + gary[1]
-            print(test_dict.keys())
             if key not in test_dict.keys():
                 print("** no instance found **")
             else:
@@ -29,14 +28,13 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] != "BaseModel"):
+        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
             print("** class doesn't exist **")
         elif (len(gary) == 1):
             print("** instance id missing **")
         else:
             test_dict = storage.all()
             key = gary[0] + "." + gary[1]
-            print(test_dict.keys())
             if key not in test_dict.keys():
                 print("** no instance found **")
             else:
@@ -44,18 +42,15 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
 
     def do_create(self, arg):
-#        print("hi")
-  #      print(arg)
-   #     print("hi\n")
         gary = parse(arg)
-     #   print("hi")
-    #    print(gary)
- #       print("hi")
-
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] != "BaseModel"):
+        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
             print("** class doesn't exist **")
+        elif (gary[0] == "User"):
+            new_obj = User()
+            print(new_obj.id)
+            new_obj.save()  # save meth from file_storage
         else:
             new_obj = BaseModel()
             print(new_obj.id)
@@ -65,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] != "BaseModel"):
+        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
             print("** class doesn't exist **")
         else:
             print([str(v) for (k, v) in storage.all().items()])
@@ -75,7 +70,7 @@ class HBNBCommand(cmd.Cmd):
         if (len(gary) == 0):
             print("** class name missing **")
 
-        elif (len(gary) == 1 and gary[0] != "BaseModel"):
+        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
             print("** class doesn't exist **")
 
         elif (len(gary) == 3):
@@ -87,9 +82,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             test_dict = storage.all()
             key = gary[0] + "." + gary[1]
-#            print("here's a dict!")
-#            print(test_dict.keys())
- #           print("hi")
             if key not in test_dict.keys():
                 print("** no instance found **")
             else:
@@ -114,8 +106,6 @@ class HBNBCommand(cmd.Cmd):
 
 def parse(arg):
     'Convert a series of zero or more numbers to an argument tuple'
-#    print("arg to parse")
- #   print(arg)
     return tuple(map(str, arg.split()))
 
 if __name__ == '__main__':

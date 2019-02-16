@@ -14,12 +14,8 @@ class FileStorage:
 
     def new(self, obj):
         """populates dictionary"""
-
-        print("how is this a dict")
-        print(obj)
-        print("the end")
         key = "{:s}.{:s}".format(obj.__class__.__name__, str(obj.id))
-        self.__objects[key] = obj
+        self.__objects[key] = obj # looks like dict when print bc __str__ meth
 
     def save(self):
         """convert to json"""
@@ -27,9 +23,6 @@ class FileStorage:
             new_dict = {}
             for key, value in self.__objects.items():
                 new_dict[key] = value.to_dict()
-                print("examine")
-                print(value.to_dict())
-                print("hi")
             f.write(json.dumps(new_dict))
 
     def reload(self):
@@ -40,9 +33,17 @@ class FileStorage:
         except Exception as e:
             pass
         else:
-            print("this is output.items()")
-            print(output.items())
             for key, value in output.items():
+                print("begin")
+                print(output.items())
+                print("end")
                 from models.base_model import BaseModel
                 if value['__class__'] == 'BaseModel':
                     self.__objects[key] = BaseModel(**value)
+                else:
+                    from models.user import User
+                    value['__class__'] = User(**value)
+                    print("here's your value")
+                    print(value)
+                    print("boop")
+                    self.__objects[key] = User(**value)
