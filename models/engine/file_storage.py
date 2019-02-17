@@ -14,8 +14,10 @@ class FileStorage:
 
     def new(self, obj):
         """populates dictionary"""
-        key = "{:s}.{:s}".format(obj.__class__.__name__, str(obj.id))
-        self.__objects[key] = obj  # looks like dict when print bc __str__ meth
+        from models.base_model import BaseModel
+        if isinstance(obj, BaseModel) is True:
+            key = "{:s}.{:s}".format(obj.__class__.__name__, str(obj.id))
+            self.__objects[key] = obj  # looks like dict when print bc __str__ meth
 
     def save(self):
         """convert to json"""
