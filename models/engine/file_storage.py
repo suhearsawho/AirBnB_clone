@@ -15,7 +15,7 @@ class FileStorage:
     def new(self, obj):
         """populates dictionary"""
         key = "{:s}.{:s}".format(obj.__class__.__name__, str(obj.id))
-        self.__objects[key] = obj # looks like dict when print bc __str__ meth
+        self.__objects[key] = obj  # looks like dict when print bc __str__ meth
 
     def save(self):
         """convert to json"""
@@ -34,16 +34,10 @@ class FileStorage:
             pass
         else:
             for key, value in output.items():
-                print("begin")
-                print(output.items())
-                print("end")
-                from models.base_model import BaseModel
                 if value['__class__'] == 'BaseModel':
+                    from models.base_model import BaseModel
                     self.__objects[key] = BaseModel(**value)
                 else:
                     from models.user import User
                     value['__class__'] = User(**value)
-                    print("here's your value")
-                    print(value)
-                    print("boop")
                     self.__objects[key] = User(**value)

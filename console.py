@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """entry point of command line interpreter"""
-import cmd, sys
+import cmd
+import sys
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from models import storage
+
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
@@ -12,7 +14,8 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
+        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
+                                  gary[0] != "User")):
             print("** class doesn't exist **")
         elif (len(gary) == 1):
             print("** instance id missing **")
@@ -28,7 +31,8 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
+        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
+                                  gary[0] != "User")):
             print("** class doesn't exist **")
         elif (len(gary) == 1):
             print("** instance id missing **")
@@ -45,7 +49,8 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
+        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
+                                  gary[0] != "User")):
             print("** class doesn't exist **")
         elif (gary[0] == "User"):
             new_obj = User()
@@ -60,7 +65,8 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
+        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
+                                  gary[0] != "User")):
             print("** class doesn't exist **")
         else:
             print([str(v) for (k, v) in storage.all().items()])
@@ -70,11 +76,12 @@ class HBNBCommand(cmd.Cmd):
         if (len(gary) == 0):
             print("** class name missing **")
 
-        elif (len(gary) == 1 and gary[0] != "BaseModel" and gary[0] != "User"):
+        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
+                                  gary[0] != "User")):
             print("** class doesn't exist **")
 
         elif (len(gary) == 3):
-            print("** no instance found **")
+            print("** attribute name missing **")
 
         elif (len(gary) == 4):
             print("** value missing **")
@@ -90,7 +97,6 @@ class HBNBCommand(cmd.Cmd):
                 if key in test_dict:
                     setattr(test_dict[key], gary[3], gary[4])
                     storage.save()
-                    print(test_dict[key].__dict__)
 
     def emptyline(self):
         """do nothing on empty line"""
@@ -103,6 +109,7 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
+
 
 def parse(arg):
     'Convert a series of zero or more numbers to an argument tuple'
