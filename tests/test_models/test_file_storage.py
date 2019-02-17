@@ -2,8 +2,9 @@
 """TestFileStorage class"""
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
-import unittest
+import json
 import os
+import unittest
 
 class TestFileStorage(unittest.TestCase):
     """Unit tests for FileStorage class"""
@@ -12,9 +13,10 @@ class TestFileStorage(unittest.TestCase):
         # Delete file.json
         try:
             with open('file.json', 'w+') as f:
-                f.write('')
+                os.remove('file.json')
         except Exception as e:
             pass
+
         # Empty __objects dictionary in FileStorage
         a = FileStorage().all()
         keys = list(a.keys())
@@ -69,5 +71,41 @@ class TestFileStorage(unittest.TestCase):
 
     def test_save_method_valid(self):
         """Tests that the save method correctly serializes __objects"""
+        storage = FileStorage()
         a = BaseModel()
+        a.save()
+        a_to_dict = a.to_dict()
+        expected = {a.__class__.__name__+ '.' + a.id:
+            a.to_dict()}
+        storage.save()
+        with open('file.json', 'r+') as f:
+            actual = json.loads(f.read())
+            self.assertDictEqual(expected, actual)
+
+    def test_reload_method_valid(self):
+        """Tests that the reload method correctly deserializes JSON file
+            when file exists"""
+        storage = FileStorage()
+        a = BaseModel()
+        b = BaseModel()
+        a.save()
+        b.save()
+        storage.save()
+        del a, b
+        
+        # Check that json file exists now 
+        self.assertEqual(True, os.path.exists('file.json'))
+        storage.reload()
+        
+        # Check that restored values are equivalent to the original
+        new_instances = storage.all()
+        for key, value in new_instances.items():
+            self.assertEqual(type(value), BaseModel)
+        
+    def test_reload_method_no_file(self):
+        """Tests that the reload method does not raise an error when 
+            JSON file does not exist"""
+
+        storage = FileStorage()
+        self.assertEqual(False, os.path.exists('file.json'))
 
