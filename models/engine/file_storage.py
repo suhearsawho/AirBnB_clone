@@ -17,7 +17,8 @@ class FileStorage:
         from models.base_model import BaseModel
         if isinstance(obj, BaseModel) is True:
             key = "{:s}.{:s}".format(obj.__class__.__name__, str(obj.id))
-            self.__class__.__objects[key] = obj  # looks like dict when print bc __str__ meth
+            # looks like dict when printed because of __str__ method
+            self.__class__.__objects[key] = obj
 
     def save(self):
         """convert to json"""
