@@ -3,11 +3,21 @@
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
+from models.engine.file_storage import FileStorage
 
 
 class Test_BaseModel(unittest.TestCase):
     """Test cases for the BaseModel class"""
     list_id = []
+    
+    def setUp(self):
+        """Setup for all tests that will be run"""
+        # Delete file.json
+        try:
+            with open('file.json', 'w+') as f:
+                f.write('')
+        except Exception as e:
+            pass
 
     def test_create_new_valid(self):
         """Tests when a valid instance of BaseModel is created"""
@@ -66,4 +76,57 @@ class Test_BaseModel(unittest.TestCase):
             actual = a.to_dict()
             self.assertDictEqual(actual, expected)
 
-    def test_base 
+    def test_type_from_to_dict(self):
+        """Tests the type of the values stored in the to_dict dictionary"""
+        a = BaseModel()
+        to_dict_result = a.to_dict()
+        self.assertEqual(str, type(to_dict_result['updated_at']))
+        self.assertEqual(str, type(to_dict_result['created_at']))
+        self.assertEqual(str, type(to_dict_result['id']))
+        self.assertEqual(str, type(to_dict_result['__class__']))
+
+    def test_create_instance_valid(self):
+        """Create an instance of BaseModel from dictionary input"""
+        expected = BaseModel().to_dict()
+        new = BaseModel(**expected)
+        actual = new.to_dict()
+        self.assertDictEqual(expected, actual)
+        self.assertIsNot(expected, actual)
+    
+    def test_create_instance_partial_input_valid(self):
+        """Create an instance of BaseModel from dictionary input
+            that does not have all common attributes of 
+            BaseModel class"""
+        
+        # Only id is given
+        expected = 5
+        a = BaseModel(id=expected)
+        self.assertEqual(a.id, expected)
+
+        # Only updated_at is given
+        expected = '2017-09-28T21:03:54.052302'
+        a = BaseModel(updated_at=expected)
+        actual = a.to_dict()
+        self.assertEqual(expected, actual['updated_at'])
+
+        # Only created_at is given
+        expected = '2017-09-28T21:03:54.052302'
+        a = BaseModel(created_at=expected)
+        actual = a.to_dict()
+        self.assertEqual(expected, actual['created_at'])
+
+        # Variables other than the three listed were given 
+        expected = 'hi'
+        a = BaseModel(random=expected)
+        self.assertEqual(a.random, expected)
+
+    def test_create_instance_empty_dict(self):
+        """Create an instance of BaseModel when no dictionary is used"""
+        inputs = [10, 10.2, (10, ), [1], 'str']
+        for element in inputs:
+            a = BaseModel(element)
+            self.assertEqual(BaseModel, type(a))
+
+    def test_create_instance_invalid_dict(self):
+        """Create an instance of BaseModel with invalid inputs"""
+        pass 

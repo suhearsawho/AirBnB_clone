@@ -26,11 +26,17 @@ class BaseModel:
         self.updated_at = datetime.today()
         if (len(kwargs) == 0):
             storage.new(self)
-        for k, v in kwargs.items():
-            if k != '__class__':
-                if k in ['created_at', 'updated_at']:
-                    v = self.parse(v)  # call conversion fn
-                setattr(self, k, v)
+        else:
+            for k, v in kwargs.items():
+                if k != '__class__':
+                    if k in ['created_at', 'updated_at']:
+                        v = self.parse(v)  # call conversion fn
+                    setattr(self, k, v)
+                if k == 'id':
+                    existing = storage.all()
+                    id_str = self.__class__.__name__ + '.' + str(v)
+                    if id_str not in existing.keys():
+                        storage.new(self)
 
     def __str__(self):
         """Define print() and str() output"""
