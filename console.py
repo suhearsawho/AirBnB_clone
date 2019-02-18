@@ -156,6 +156,11 @@ class HBNBCommand(cmd.Cmd):
                             setattr(test_dict[key], gary[2], float(gary[3]))
                         test_dict[key].save()
 
+    def default(self, arg):
+        """Default behavior when argument format is not recognized by cmd"""
+
+        # Parse the incoming argument
+
     def emptyline(self):
         """do nothing on empty line"""
         pass
