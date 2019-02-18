@@ -22,10 +22,11 @@ class FileStorage:
 
     def save(self):
         """convert to json"""
-        with open(self.__file_path, "w+") as f:
+        with open(self.__class__.__file_path, "w+") as f:
             new_dict = {}
             for key, value in self.__class__.__objects.items():
                 new_dict[key] = value.to_dict()
+                print('The save function in FileStorage\n', new_dict[key])
             f.write(json.dumps(new_dict))
 
     def reload(self):

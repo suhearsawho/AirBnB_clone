@@ -18,6 +18,18 @@ class HBNBCommand(cmd.Cmd):
     base_types = ['BaseModel', 'User', 'State', 'City', 'Amenity',
                   'Place', 'Review']
 
+    @staticmethod
+    def determine_type(arg):
+        string_char = ['"', "'"]
+        for character in arg:
+            if character in string_char:
+                return 'str'
+            if ord(character) < ord('0') or ord(character) > ord('9'):
+                return 'str'
+        if '.' in list[arg]:
+                return 'float'
+        return 'int'
+    
     def do_show(self, arg):
         gary = parse(arg)
         if (len(gary) == 0):
@@ -38,8 +50,7 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
-                                  gary[0] != "User")):
+        elif (len(gary) == 1 and gary[0] not in HBNBCommand().base_types):
             print("** class doesn't exist **")
         elif (len(gary) == 1):
             print("** instance id missing **")
@@ -79,41 +90,45 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         gary = parse(arg)
-        if (len(gary) == 0):
-            print("** class name missing **")
-        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
-                                  gary[0] != "User")):
+        if len(gary) == 0:
+            print([str(v) for k, v in storage.all().items()])
+        elif len(gary) == 1 and gary[0] not in HBNBCommand().base_types:
             print("** class doesn't exist **")
         else:
-            print([str(v) for (k, v) in storage.all().items()])
+            print([str(v) for k, v in storage.all().items()
+                    if v.__class__.__name__ == gary[0]])
 
     def do_update(self, arg):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-
-        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
-                                  gary[0] != "User")):
+        elif (len(gary) == 1 and gary[0] not in HBNBCommand().base_types):
             print("** class doesn't exist **")
-
-        elif (len(gary) == 3):
-            print("** attribute name missing **")
-
-        elif (len(gary) == 4):
-            print("** value missing **")
-
+        elif len(gary) == 1:
+            print("**instance id missing **")
         else:
             test_dict = storage.all()
             key = gary[0] + "." + gary[1]
             if key not in test_dict.keys():
                 print("** no instance found **")
             else:
-                test_dict = storage.all()
-                key = gary[0] + "." + gary[1]
-                if key in test_dict:
-                    setattr(test_dict[key], gary[3], gary[4])
-                    storage.save()
-
+                if (len(gary) == 2):
+                    print("** attribute name missing **")
+                elif (len(gary) == 3):
+                    print("** value missing **")
+                else:
+                    key = gary[0] + "." + gary[1]
+                    if key in test_dict:
+                        arg_type = self.determine_type(gary[3])
+                        if arg_type == 'str':
+                            setattr(test_dict[key], gary[2], str(gary[3]))
+                        elif arg_type == 'int':
+                            setattr(test_dict[key], gary[2], int(gary[3]))
+                        elif arg_type == 'float':
+                            setattr(test_dict[key], gary[2], float(gary[3]))
+                        test_dict[key].save()
+                        print(test_dict[key]) 
+        
     def emptyline(self):
         """do nothing on empty line"""
         pass
