@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """base class for project"""
-import uuid
 from datetime import datetime
+import uuid
 
 
 class BaseModel:
