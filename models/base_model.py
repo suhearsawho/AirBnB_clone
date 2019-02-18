@@ -47,13 +47,3 @@ class BaseModel:
         return new_dict
 
 
-def parse(dates):
-    """parse the ISO format string"""
-    year = int(dates[:4])
-    month = int(dates[5:7])
-    day = int(dates[8:10])
-    hour = int(dates[11:13])
-    minute = int(dates[14:16])
-    second = int(dates[17:19])
-    microsecond = int(dates[20:])
-    return datetime(year, month, day, hour, minute, second, microsecond)
