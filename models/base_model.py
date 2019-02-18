@@ -17,10 +17,10 @@ class BaseModel:
             storage.new(self)
         else:
             for k, v in kwargs.items():
+                time_entries = ['created_at', 'updated_at']
                 if k != '__class__':
-                    if k in ['created_at', 'updated_at']:
-                        pass
-                        # v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
+                    if k in time_entries:
+                        v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, k, v)
                 if k == 'id':
                     existing = storage.all()
