@@ -69,7 +69,7 @@ class Test_BaseModel(unittest.TestCase):
         actual = a.to_dict()
         self.assertDictEqual(actual, expected)
 
-        test_input = [80, (80, ), 'a', {'hi': 5}, [1], 5.12]
+        test_input = [80, (80, ), 'a', {'hi': 5}, [1], 5.12, True, None]
         for test in test_input:
             a.my_number = test
             expected['my_number'] = test
@@ -101,7 +101,7 @@ class Test_BaseModel(unittest.TestCase):
         # Only id is given
         expected = 5
         a = BaseModel(id=expected)
-        self.assertEqual(a.id, expected)
+        self.assertEqual(a.id, str(expected))
 
         # Only updated_at is given
         expected = '2017-09-28T21:03:54.052302'
@@ -120,9 +120,34 @@ class Test_BaseModel(unittest.TestCase):
         a = BaseModel(random=expected)
         self.assertEqual(a.random, expected)
 
+    def test_invalid_iso_string(self):
+        """Tests when an invalid iso string is given"""
+        invalid_str = '2017-08'
+        with self.assertRaises(ValueError):
+            a = BaseModel(updated_at=invalid_str)
+
+    def test_invalid_types_created_updated(self):
+        """Tests when an invalid type is given for created at
+            and updated at variable"""
+        invalid_types = [12, 12.4, True, None, (10, ), [1], {'hi': 5}]
+        for element in invalid_types:
+            a = BaseModel(created_at=element, updated_at=element)
+            expected = (datetime, datetime)
+            actual = (type(a.created_at), type(a.updated_at))
+            self.assertEqual(expected, actual)
+
+    def test_invalid_types_id(self):
+        """Tests when non-string input is given for id"""
+        invalid_types = [12, 12.4, True, None, (10, ), [1], {'hi': 5}]
+        for element in invalid_types:
+            a = BaseModel(id=element)
+            expected = str(element)
+            actual = a.id
+            self.assertEqual(expected, actual)
+
     def test_create_instance_empty_dict(self):
         """Create an instance of BaseModel when no dictionary is used"""
-        inputs = [10, 10.2, (10, ), [1], 'str']
+        inputs = [10, 10.2, (10, ), [1], 'str', True, None]
         for element in inputs:
             a = BaseModel(element)
             self.assertEqual(BaseModel, type(a))

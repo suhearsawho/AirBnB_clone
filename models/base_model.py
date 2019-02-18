@@ -21,6 +21,13 @@ class BaseModel:
                     if k in ['created_at', 'updated_at']:
                         if type(v) == str:
                             v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
+                        else:
+                            if k == 'created_at':
+                                v = self.created_at
+                            elif k == 'updated_at':
+                                v = self.updated_at
+                    if k == 'id':
+                        v = str(v)
                     setattr(self, k, v)
                 if k == 'id':
                     existing = storage.all()
