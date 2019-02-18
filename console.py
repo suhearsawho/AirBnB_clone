@@ -15,14 +15,13 @@ from models.engine.file_storage import FileStorage
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
-    basemodel_types = ['BaseModel', 'User', 'State', 'City', 'Amenity',
+    base_types = ['BaseModel', 'User', 'State', 'City', 'Amenity',
                         'Place', 'Review']
     def do_show(self, arg):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
-                                  gary[0] != "User")):
+        elif (len(gary) == 1 and gary[0] not in HBNBCommand().base_types):
             print("** class doesn't exist **")
         elif (len(gary) == 1):
             print("** instance id missing **")
@@ -57,7 +56,7 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if len(gary) == 0:
             print("** class name missing **")
-        elif len(gary) == 1 and gary[0] not in HBNBCommand().basemodel_types:
+        elif len(gary) == 1 and gary[0] not in HBNBCommand().base_types:
             print("** class doesn't exist **")
         else:
             if gary[0] == 'BaseModel': 

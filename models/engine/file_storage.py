@@ -50,11 +50,11 @@ class FileStorage:
                     from models.state import State
                     self.__class__.__objects[key] = State(**value)
                 elif value['__class__'] == 'City':
-                    from models.state import City
+                    from models.city import City
                     self.__class__.__objects[key] = City(**value)
                 elif value['__class__'] == 'Amenity':
-                    from models.state import Amenity
+                    from models.amenity import Amenity
                     self.__class__.__objects[key] = Amenity(**value)
                 elif value['__class__'] == 'Review':
-                    from models.state import Review
+                    from models.review import Review
                     self.__class__.__objects[key] = Review(**value)
