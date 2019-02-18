@@ -19,7 +19,7 @@ class BaseModel:
             for k, v in kwargs.items():
                 if k != '__class__':
                     if k in ['created_at', 'updated_at']:
-                        v = parse(v)  # call conversion fn
+                        v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, k, v)
                 if k == 'id':
                     existing = storage.all()
@@ -45,5 +45,3 @@ class BaseModel:
         new_dict['created_at'] = self.created_at.isoformat()
         new_dict['updated_at'] = self.updated_at.isoformat()
         return new_dict
-
-
