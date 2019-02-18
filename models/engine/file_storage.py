@@ -37,6 +37,16 @@ class FileStorage:
                 if value['__class__'] == 'BaseModel':
                     from models.base_model import BaseModel
                     self.__objects[key] = BaseModel(**value)
+                if value['__class__'] == 'BaseModel':
+                    from models.base_model import BaseModel
+                    self.__objects[key] = BaseModel(**value)
+                if value['__class__'] == 'BaseModel':
+                    from models.base_model import BaseModel
+                    self.__objects[key] = BaseModel(**value)
+                if value['__class__'] == 'BaseModel':
+                    from models.base_model import BaseModel
+                    self.__objects[key] = BaseModel(**value)
+
                 else:
                     from models.user import User
                     value['__class__'] = User(**value)
