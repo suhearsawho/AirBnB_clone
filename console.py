@@ -16,7 +16,8 @@ from models.engine.file_storage import FileStorage
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
     base_types = ['BaseModel', 'User', 'State', 'City', 'Amenity',
-                        'Place', 'Review']
+                  'Place', 'Review']
+
     def do_show(self, arg):
         gary = parse(arg)
         if (len(gary) == 0):
@@ -59,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(gary) == 1 and gary[0] not in HBNBCommand().base_types:
             print("** class doesn't exist **")
         else:
-            if gary[0] == 'BaseModel': 
+            if gary[0] == 'BaseModel':
                 new_obj = BaseModel()
             elif gary[0] == 'User':
                 new_obj = User()
@@ -129,6 +130,7 @@ class HBNBCommand(cmd.Cmd):
 def parse(arg):
     'Convert a series of zero or more numbers to an argument tuple'
     return tuple(map(str, arg.split()))
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
