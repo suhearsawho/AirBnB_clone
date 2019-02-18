@@ -179,10 +179,11 @@ class HBNBCommand(cmd.Cmd):
                         cmd_name += element
                 else:
                     if element != ')':
-                        arguments += element
+                        if element not in ['"', "'"]:
+                            arguments += element
 
         final = class_name + ' ' + arguments
-
+        print(final)
         if cmd_name == 'all':
             self.do_all(final)
         elif cmd_name == 'show':
