@@ -57,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if len(gary) == 0:
             print("** class name missing **")
-        elif len(gary) == 1 and gary[0] not in HBNBCommand().basemodel_types):
+        elif len(gary) == 1 and gary[0] not in HBNBCommand().basemodel_types:
             print("** class doesn't exist **")
         else:
             if gary[0] == 'BaseModel': 

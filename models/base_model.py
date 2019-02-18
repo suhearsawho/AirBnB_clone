@@ -52,7 +52,7 @@ class BaseModel:
     def to_dict(self):
         """Update and return dictionary of instance"""
         new_dict = {k: v for (k, v) in self.__dict__.items()}
-        new_dict['__class__'] = __class__.__name__
+        new_dict['__class__'] = self.__class__.__name__
         new_dict['created_at'] = self.created_at.isoformat()
         new_dict['updated_at'] = self.updated_at.isoformat()
         return new_dict
