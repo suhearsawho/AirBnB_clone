@@ -20,17 +20,32 @@ class HBNBCommand(cmd.Cmd):
 
     @staticmethod
     def determine_type(arg):
-        string_char = ['"', "'"]
+        """Determine the type of the argument to update"""
+        if arg[0] in ['"', "'"]:
+            return 'str'
         for character in arg:
-            if character in string_char:
+            if (ord(character) != ord('.') and 
+                (ord(character) < ord('0') or ord(character) > ord('9'))):
                 return 'str'
-            if ord(character) < ord('0') or ord(character) > ord('9'):
-                return 'str'
-        if '.' in list[arg]:
+        if '.' in list(arg):
                 return 'float'
         return 'int'
     
+    @staticmethod
+    def string_input(raw_list):
+        """Create the final string input for setattr in do_update"""
+        raw = raw_list[3]
+        final = ''
+        raw_len = len(raw)
+        len_list = len(raw_list)
+        for i in range(raw_len):
+            if i != 0 or raw[i] not in ['"', "'"]:
+                final += raw[i]
+        print(final)
+        return final
+
     def do_show(self, arg):
+        """Show the specified instance of the class"""
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
@@ -47,6 +62,7 @@ class HBNBCommand(cmd.Cmd):
                 print(test_dict[key])
 
     def do_destroy(self, arg):
+        """Destroy specified instance"""
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
@@ -89,6 +105,7 @@ class HBNBCommand(cmd.Cmd):
             new_obj.save()  # save meth from file_storage
 
     def do_all(self, arg):
+        """Show all models under specified class"""
         gary = parse(arg)
         if len(gary) == 0:
             print([str(v) for k, v in storage.all().items()])
@@ -99,6 +116,7 @@ class HBNBCommand(cmd.Cmd):
                     if v.__class__.__name__ == gary[0]])
 
     def do_update(self, arg):
+        """Update the specified instance"""
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
@@ -121,13 +139,15 @@ class HBNBCommand(cmd.Cmd):
                     if key in test_dict:
                         arg_type = self.determine_type(gary[3])
                         if arg_type == 'str':
-                            setattr(test_dict[key], gary[2], str(gary[3]))
+                            final = self.string_input(gary)                    
+                            setattr(test_dict[key], gary[2], final)
                         elif arg_type == 'int':
                             setattr(test_dict[key], gary[2], int(gary[3]))
                         elif arg_type == 'float':
+                            print('hi')
                             setattr(test_dict[key], gary[2], float(gary[3]))
                         test_dict[key].save()
-                        print(test_dict[key]) 
+                        print('hiiii', test_dict[key]) 
         
     def emptyline(self):
         """do nothing on empty line"""
