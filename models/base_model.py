@@ -7,17 +7,6 @@ import uuid
 class BaseModel:
     """creates BaseModel class for project"""
 
-    def parse(self, dates):
-        """parse the ISO format string"""
-        year = int(dates[:4])
-        month = int(dates[5:7])
-        day = int(dates[8:10])
-        hour = int(dates[11:13])
-        minute = int(dates[14:16])
-        second = int(dates[17:19])
-        microsecond = int(dates[20:])
-        return datetime(year, month, day, hour, minute, second, microsecond)
-
     def __init__(self, *args, **kwargs):
         """Initialize instance variables"""
         from models import storage
@@ -30,7 +19,7 @@ class BaseModel:
             for k, v in kwargs.items():
                 if k != '__class__':
                     if k in ['created_at', 'updated_at']:
-                        v = self.parse(v)  # call conversion fn
+                        v = parse(v)  # call conversion fn
                     setattr(self, k, v)
                 if k == 'id':
                     existing = storage.all()
@@ -56,3 +45,15 @@ class BaseModel:
         new_dict['created_at'] = self.created_at.isoformat()
         new_dict['updated_at'] = self.updated_at.isoformat()
         return new_dict
+
+
+def parse(dates):
+    """parse the ISO format string"""
+    year = int(dates[:4])
+    month = int(dates[5:7])
+    day = int(dates[8:10])
+    hour = int(dates[11:13])
+    minute = int(dates[14:16])
+    second = int(dates[17:19])
+    microsecond = int(dates[20:])
+    return datetime(year, month, day, hour, minute, second, microsecond)
