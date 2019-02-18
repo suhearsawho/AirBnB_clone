@@ -9,7 +9,7 @@ from models.engine.file_storage import FileStorage
 class Test_BaseModel(unittest.TestCase):
     """Test cases for the BaseModel class"""
     list_id = []
-    
+
     def setUp(self):
         """Setup for all tests that will be run"""
         # Delete file.json
@@ -29,9 +29,9 @@ class Test_BaseModel(unittest.TestCase):
 
         # Check updated_at and created_at values
         self.assertNotEqual(a.created_at.isoformat(), a.updated_at.isoformat())
-        self.assertEqual(datetime, type(a.created_at)) 
-        self.assertEqual(datetime, type(a.updated_at)) 
-    
+        self.assertEqual(datetime, type(a.created_at))
+        self.assertEqual(datetime, type(a.updated_at))
+
     # TODO: Test when BASEMODEL is given parameters upon instantiation
 
     def test_unique_id_values(self):
@@ -39,7 +39,7 @@ class Test_BaseModel(unittest.TestCase):
         a = BaseModel()
         self.assertNotIn(a.id, self.list_id)
         self.list_id.append(a.id)
-        
+
         b = BaseModel()
         self.assertNotIn(b.id, self.list_id)
         self.list_id.append(b.id)
@@ -68,7 +68,7 @@ class Test_BaseModel(unittest.TestCase):
         expected['created_at'] = expected['created_at'].isoformat()
         actual = a.to_dict()
         self.assertDictEqual(actual, expected)
-        
+
         test_input = [80, (80, ), 'a', {'hi': 5}, [1], 5.12]
         for test in test_input:
             a.my_number = test
@@ -92,12 +92,12 @@ class Test_BaseModel(unittest.TestCase):
         actual = new.to_dict()
         self.assertDictEqual(expected, actual)
         self.assertIsNot(expected, actual)
-    
+
     def test_create_instance_partial_input_valid(self):
         """Create an instance of BaseModel from dictionary input
-            that does not have all common attributes of 
+            that does not have all common attributes of
             BaseModel class"""
-        
+
         # Only id is given
         expected = 5
         a = BaseModel(id=expected)
@@ -115,7 +115,7 @@ class Test_BaseModel(unittest.TestCase):
         actual = a.to_dict()
         self.assertEqual(expected, actual['created_at'])
 
-        # Variables other than the three listed were given 
+        # Variables other than the three listed were given
         expected = 'hi'
         a = BaseModel(random=expected)
         self.assertEqual(a.random, expected)
@@ -129,4 +129,4 @@ class Test_BaseModel(unittest.TestCase):
 
     def test_create_instance_invalid_dict(self):
         """Create an instance of BaseModel with invalid inputs"""
-        pass 
+        pass
