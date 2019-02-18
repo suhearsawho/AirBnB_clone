@@ -18,8 +18,9 @@ class BaseModel:
         else:
             for k, v in kwargs.items():
                 if k != '__class__':
-                    if k in ['created_at', 'updated_at'] is True:
-                        v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
+                    if k in ['created_at', 'updated_at']:
+                        if type(v) == str:
+                            v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, k, v)
                 if k == 'id':
                     existing = storage.all()
