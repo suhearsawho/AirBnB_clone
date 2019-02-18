@@ -2,14 +2,21 @@
 """entry point of command line interpreter"""
 import cmd
 import sys
-from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
 from models import storage
+from models.base_model import BaseModel
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
+from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
-
+    basemodel_types = ['BaseModel', 'User', 'State', 'City', 'Amenity',
+                        'Place', 'Review']
     def do_show(self, arg):
         gary = parse(arg)
         if (len(gary) == 0):
@@ -46,18 +53,27 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
 
     def do_create(self, arg):
+        """Creates a new instance of BaseModel (or derived) class"""
         gary = parse(arg)
-        if (len(gary) == 0):
+        if len(gary) == 0:
             print("** class name missing **")
-        elif (len(gary) == 1 and (gary[0] != "BaseModel" or
-                                  gary[0] != "User")):
+        elif len(gary) == 1 and gary[0] not in HBNBCommand().basemodel_types):
             print("** class doesn't exist **")
-        elif (gary[0] == "User"):
-            new_obj = User()
-            print(new_obj.id)
-            new_obj.save()  # save meth from file_storage
         else:
-            new_obj = BaseModel()
+            if gary[0] == 'BaseModel': 
+                new_obj = BaseModel()
+            elif gary[0] == 'User':
+                new_obj = User()
+            elif gary[0] == 'State':
+                new_obj = State()
+            elif gary[0] == 'City':
+                new_obj = City()
+            elif gary[0] == 'Amenity':
+                new_obj = Amenity()
+            elif gary[0] == 'Place':
+                new_obj = Place()
+            elif gary[0] == 'Review':
+                new_obj = Review()
             print(new_obj.id)
             new_obj.save()  # save meth from file_storage
 
