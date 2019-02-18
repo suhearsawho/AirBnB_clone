@@ -14,6 +14,7 @@ from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
+    """class for console in Airbnb project"""
     prompt = '(hbnb) '
     base_types = ['BaseModel', 'User', 'State', 'City', 'Amenity',
                   'Place', 'Review']
@@ -175,7 +176,7 @@ class HBNBCommand(cmd.Cmd):
 
 
 def parse(arg):
-    'Convert a series of zero or more numbers to an argument tuple'
+    """Convert a series of zero or more numbers to an argument tuple"""
     return tuple(map(str, arg.split()))
 
 
