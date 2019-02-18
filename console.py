@@ -24,13 +24,13 @@ class HBNBCommand(cmd.Cmd):
         if arg[0] in ['"', "'"]:
             return 'str'
         for character in arg:
-            if (ord(character) != ord('.') and 
-                (ord(character) < ord('0') or ord(character) > ord('9'))):
+            if (ord(character) != ord('.') and
+                    (ord(character) < ord('0') or ord(character) > ord('9'))):
                 return 'str'
         if '.' in list(arg):
-                return 'float'
+            return 'float'
         return 'int'
-    
+
     @staticmethod
     def string_input(raw_list):
         """Create the final string input for setattr in do_update"""
@@ -39,9 +39,18 @@ class HBNBCommand(cmd.Cmd):
         raw_len = len(raw)
         len_list = len(raw_list)
         for i in range(raw_len):
-            if i != 0 or raw[i] not in ['"', "'"]:
-                final += raw[i]
-        print(final)
+            if ((i != 0 or raw[i] not in ['"', "'"]) and
+                    (i != raw_len - 1 or raw[i] not in ['"', "'"])):
+                if raw[i] == "'":
+                    final += '\''
+                else:
+                    final += raw[i]
+        if raw[0] == '"' and raw[-1] != '"' and len_list > 4:
+            final += ' '
+            for raw_str in raw_list[4:]:
+                for i in raw_str:
+                    if i != '"':
+                        final += i
         return final
 
     def do_show(self, arg):
@@ -113,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             print([str(v) for k, v in storage.all().items()
-                    if v.__class__.__name__ == gary[0]])
+                   if v.__class__.__name__ == gary[0]])
 
     def do_update(self, arg):
         """Update the specified instance"""
@@ -139,7 +148,7 @@ class HBNBCommand(cmd.Cmd):
                     if key in test_dict:
                         arg_type = self.determine_type(gary[3])
                         if arg_type == 'str':
-                            final = self.string_input(gary)                    
+                            final = self.string_input(gary)
                             setattr(test_dict[key], gary[2], final)
                         elif arg_type == 'int':
                             setattr(test_dict[key], gary[2], int(gary[3]))
@@ -147,8 +156,8 @@ class HBNBCommand(cmd.Cmd):
                             print('hi')
                             setattr(test_dict[key], gary[2], float(gary[3]))
                         test_dict[key].save()
-                        print('hiiii', test_dict[key]) 
-        
+                        print('hiiii', test_dict[key])
+
     def emptyline(self):
         """do nothing on empty line"""
         pass
