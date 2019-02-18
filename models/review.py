@@ -6,9 +6,7 @@ from models.user import User
 
 
 class Review(BaseModel):
-#    place_id = "{}.{}".format(Place.name, self.id)
-#    user_id = "{}.{}".format(User.name, self.id)
+    """Defines the class Review"""
     place_id = ""
     user_id = ""
     text = ""
-
