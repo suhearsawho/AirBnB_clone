@@ -46,8 +46,8 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     final += raw[i]
         if raw[0] == '"' and raw[-1] != '"' and len_list > 4:
-            final += ' '
             for raw_str in raw_list[4:]:
+                final += ' '
                 for i in raw_str:
                     if i != '"':
                         final += i
@@ -153,10 +153,8 @@ class HBNBCommand(cmd.Cmd):
                         elif arg_type == 'int':
                             setattr(test_dict[key], gary[2], int(gary[3]))
                         elif arg_type == 'float':
-                            print('hi')
                             setattr(test_dict[key], gary[2], float(gary[3]))
                         test_dict[key].save()
-                        print('hiiii', test_dict[key])
 
     def emptyline(self):
         """do nothing on empty line"""
