@@ -178,12 +178,19 @@ class HBNBCommand(cmd.Cmd):
                     else:
                         cmd_name += element
                 else:
-                    arguments += element
+                    if element != ')':
+                        arguments += element
 
         final = class_name + ' ' + arguments
 
         if cmd_name == 'all':
             self.do_all(final)
+        elif cmd_name == 'show':
+            self.do_show(final)
+        elif cmd_name == 'destroy':
+            self.do_destroy(final)
+        elif cmd_name == 'update':
+            self.do_update(final)
 
     def emptyline(self):
         """do nothing on empty line"""
