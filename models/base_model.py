@@ -17,9 +17,8 @@ class BaseModel:
             storage.new(self)
         else:
             for k, v in kwargs.items():
-                time_entries = ['created_at', 'updated_at']
                 if k != '__class__':
-                    if k in time_entries:
+                    if k in ['created_at', 'updated_at']:
                         v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, k, v)
                 if k == 'id':
