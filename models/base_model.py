@@ -13,12 +13,12 @@ class BaseModel:
         self.id = str(uuid.uuid4())
         self.created_at = datetime.today()
         self.updated_at = datetime.today()
-        if (len(kwargs) == 0):
+        if len(kwargs) == 0:
             storage.new(self)
         else:
             for k, v in kwargs.items():
                 if k != '__class__':
-                    if k in ['created_at', 'updated_at']:
+                    if k in ['created_at', 'updated_at'] is True:
                         v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, k, v)
                 if k == 'id':
@@ -40,7 +40,7 @@ class BaseModel:
 
     def to_dict(self):
         """Update and return dictionary of instance"""
-        new_dict = {k: v for (k, v) in self.__dict__.items()}
+        new_dict = {k: v for k, v in self.__dict__.items()}
         new_dict['__class__'] = self.__class__.__name__
         new_dict['created_at'] = self.created_at.isoformat()
         new_dict['updated_at'] = self.updated_at.isoformat()
