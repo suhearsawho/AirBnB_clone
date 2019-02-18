@@ -159,8 +159,31 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, arg):
         """Default behavior when argument format is not recognized by cmd"""
+        class_name = ''
+        cmd_name = ''
+        arguments = ''
 
-        # Parse the incoming argument
+        before_period = True
+        before_arg = True
+        for element in arg:
+            if before_period is True:
+                if element == '.':
+                    before_period = False
+                else:
+                    class_name += element
+            else:
+                if before_arg is True:
+                    if element == '(':
+                        before_arg = False
+                    else:
+                        cmd_name += element
+                else:
+                    arguments += element
+
+        final = class_name + ' ' + arguments
+
+        if cmd_name == 'all':
+            self.do_all(final)
 
     def emptyline(self):
         """do nothing on empty line"""
