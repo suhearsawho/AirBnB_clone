@@ -112,7 +112,7 @@ class Test_BaseModel(unittest.TestCase):
         """create instance of amenity from kwargs"""
         storage = FileStorage()
         amenity1 = Amenity(created_at="2017-06-14T22:31:03.285259", heads=4,
-                     updated_at="2017-06-14T22:31:03.285259", id=3434)
+                           updated_at="2017-06-14T22:31:03.285259", id=3434)
         self.assertEqual(amenity1.heads, 4)
         _dict = storage.all()  # store __object dict
         test_list = [k for k in _dict.keys()]
