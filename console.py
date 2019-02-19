@@ -53,6 +53,17 @@ class HBNBCommand(cmd.Cmd):
                         final += i
         return final
 
+    def do_print(self, arg):
+        print(type(arg))
+        gary = parse(arg)
+        for i in gary:
+            print(i)
+        print(type(gary))
+        print("first not command arg is")
+        print(gary[0])
+        print(self.__dict__)
+
+
     def do_show(self, arg):
         """Show the specified instance of the class"""
         gary = parse(arg)
@@ -167,7 +178,6 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
-
 
 def parse(arg):
     'Convert a series of zero or more numbers to an argument tuple'

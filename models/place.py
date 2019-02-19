@@ -6,8 +6,6 @@ from models.user import User
 
 
 class Place(BaseModel):
-    #city_id = "{}.{}".format(city.Name, self.id)
-    #user_id = "{}.{}".format(user.Name, self.id)
     city_id = ""
     user_id = ""
     name = ""
