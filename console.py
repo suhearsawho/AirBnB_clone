@@ -60,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] not in HBNBCommand().base_types):
+        elif (gary[0] not in HBNBCommand().base_types):
             print("** class doesn't exist **")
         elif (len(gary) == 1):
             print("** instance id missing **")
@@ -77,7 +77,7 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] not in HBNBCommand().base_types):
+        elif (gary[0] not in HBNBCommand().base_types):
             print("** class doesn't exist **")
         elif (len(gary) == 1):
             print("** instance id missing **")
@@ -95,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if len(gary) == 0:
             print("** class name missing **")
-        elif len(gary) == 1 and gary[0] not in HBNBCommand().base_types:
+        elif gary[0] not in HBNBCommand().base_types:
             print("** class doesn't exist **")
         else:
             if gary[0] == 'BaseModel':
@@ -112,15 +112,15 @@ class HBNBCommand(cmd.Cmd):
                 new_obj = Place()
             elif gary[0] == 'Review':
                 new_obj = Review()
-            print(new_obj.id)
             new_obj.save()  # save meth from file_storage
+            print(new_obj.id)
 
     def do_all(self, arg):
         """Show all models under specified class"""
         gary = parse(arg)
         if len(gary) == 0:
             print([str(v) for k, v in storage.all().items()])
-        elif len(gary) == 1 and gary[0] not in HBNBCommand().base_types:
+        elif gary[0] not in HBNBCommand().base_types:
             print("** class doesn't exist **")
         else:
             print([str(v) for k, v in storage.all().items()
@@ -131,10 +131,10 @@ class HBNBCommand(cmd.Cmd):
         gary = parse(arg)
         if (len(gary) == 0):
             print("** class name missing **")
-        elif (len(gary) == 1 and gary[0] not in HBNBCommand().base_types):
+        elif gary[0] not in HBNBCommand().base_types:
             print("** class doesn't exist **")
         elif len(gary) == 1:
-            print("**instance id missing **")
+            print("** instance id missing **")
         else:
             test_dict = storage.all()
             key = gary[0] + "." + gary[1]
