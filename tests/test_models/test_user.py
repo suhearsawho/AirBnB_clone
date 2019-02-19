@@ -59,6 +59,12 @@ class Test_BaseModel(unittest.TestCase):
         actual['cat'] = 2
         self.assertEqual(actual['cat'], 2)
 
+        """test type of values in to_dict"""
+        self.assertEqual(str, type(capture['__class__']))
+        self.assertEqual(str, type(capture['updated_at']))
+        self.assertEqual(str, type(capture['created_at']))
+
+
     def test_unique_values(self):
         """test each user has unique values"""
         user1 = User()
@@ -102,3 +108,19 @@ class Test_BaseModel(unittest.TestCase):
         len_dict2 = len(storage.all())
         self.assertNotEqual(len_dict1, len_dict2)
 
+    def test_create(self):
+        """create instance of user from kwargs"""
+        storage = FileStorage()
+        user1 = User(created_at = "2017-06-14T22:31:03.285259", heads = 4,
+                      updated_at = "2017-06-14T22:31:03.285259", id = 3434)
+        self.assertEqual(user1.heads, 4)
+        _dict = storage.all()  # store __object dict
+        test_list = [k for k in _dict.keys()]
+        key = "User." + str(user1.id)
+        self.assertIn(key, test_list)
+
+"""
+    def test_invalid_initialization(self):
+create User instance in illegal ways
+        user1 = User(None)
+        user2 = User(id = "ball")"""
