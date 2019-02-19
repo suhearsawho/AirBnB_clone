@@ -162,7 +162,3 @@ class Test_BaseModel(unittest.TestCase):
         for element in inputs:
             a = User(element)
             self.assertEqual(User, type(a))
-
-    def test_console_show(self):
-        """test show method in the console"""
-        
