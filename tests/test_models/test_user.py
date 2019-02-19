@@ -79,3 +79,26 @@ class Test_BaseModel(unittest.TestCase):
         expected = '[BaseModel] (124) {}'.format(entries)
         actual = str(a)
         self.assertEqual(expected, actual)
+
+    def test_save_method(self):
+        """test save method updates time"""
+        my_user = User()
+        org_created = my_user.created_at.isoformat()
+        org_updated = my_user.updated_at.isoformat()
+        my_user.save()
+        new_created = my_user.created_at.isoformat()
+        new_updated = my_user.updated_at.isoformat()
+        self.assertNotEqual(org_updated, org_created)
+        self.assertEqual(org_created, new_created)
+
+    def test_check_save(self):
+        """check save writes to file"""
+        storage = FileStorage()
+        my_user1 = User()
+        my_user1.save()
+        len_dict1 = len(storage.all())
+        my_user2 = User()
+        my_user2.save()
+        len_dict2 = len(storage.all())
+        self.assertNotEqual(len_dict1, len_dict2)
+
