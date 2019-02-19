@@ -44,8 +44,9 @@ class Test_BaseModel(unittest.TestCase):
         self.assertEqual(datetime, type(my_user.created_at))
         self.assertEqual(datetime, type(my_user.updated_at))
 
-    def test_serialization(self):
-        """test that user object gets serialized"""
+    def test_to_dict(self):
+        """test that to_dict creates dict"""
         my_user = User()
-        my_user.save()
-        
+        test_dict = my_user.to_dict()
+        self.assertEqual(dict, type(test_dict))
+        self.assertIn(
