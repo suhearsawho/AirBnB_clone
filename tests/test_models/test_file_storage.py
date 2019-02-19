@@ -25,6 +25,27 @@ class TestFileStorage(unittest.TestCase):
         for value in keys:
             del a[value]
 
+    def test_file_path(self):
+        """Tests that the class attribute is used in the case that
+            an instance attribute with the same name as __file_path
+            is created"""
+        a = FileStorage()
+        fake_file = 'fake.json'
+        a.__file_path = fake_file
+
+        b = BaseModel()
+        b.save()
+        self.assertEqual(False, os.path.exists(fake_file))
+        self.assertEqual(True, os.path.exists('file.json'))
+
+    def test_objects_dict(self):
+        """Tests that the class attribute __objects is used in the case that
+            an instance attribute with the same name has been created"""
+        storage = FileStorage()
+        storage.__objects = {}
+
+        self.assertNotEqual(id(storage.__objects), id(storage.all()))
+
     def test_all_method_when_empty(self):
         """Tests the return value of all when no objects have been saved"""
         a = FileStorage()
@@ -63,7 +84,7 @@ class TestFileStorage(unittest.TestCase):
     def test_new_method_invalid_types(self):
         """Tests that objects that are not instances derived from BaseModel
             will not be saved with new method"""
-        input_data = [10, 10.2, (10, ), [124, 1], 'a', {'hi': 5}]
+        input_data = [10, 10.2, (10, ), [124, 1], 'a', {'hi': 5}, True, None]
         storage = FileStorage()
         expected = {}
         for value in input_data:
@@ -79,10 +100,13 @@ class TestFileStorage(unittest.TestCase):
         a_to_dict = a.to_dict()
         expected = {a.__class__.__name__ + '.' + a.id:
                     a.to_dict()}
+        expected_file = json.dumps(expected)
         storage.save()
         with open('file.json', 'r+') as f:
-            actual = json.loads(f.read())
+            actual_file = f.read()
+            actual = json.loads(actual_file)
             self.assertDictEqual(expected, actual)
+            self.assertEqual(expected_file, actual_file)
 
     def test_reload_method_valid(self):
         """Tests that the reload method correctly deserializes JSON file
@@ -92,7 +116,12 @@ class TestFileStorage(unittest.TestCase):
         b = BaseModel()
         a.save()
         b.save()
+
+        a_id = 'BaseModel' + '.' + a.id
+        b_id = 'BaseModel' + '.' + b.id
+        expected_dict = {a_id: a.to_dict(), b_id: b.to_dict()}
         storage.save()
+
         del a, b
 
         # Check that json file exists now
@@ -100,9 +129,11 @@ class TestFileStorage(unittest.TestCase):
         storage.reload()
 
         # Check that restored values are equivalent to the original
-        new_instances = storage.all()
-        for key, value in new_instances.items():
+        actual_dict = storage.all()
+        for key, value in actual_dict.items():
             self.assertEqual(type(value), BaseModel)
+        actual_dict = {k: v.to_dict() for k, v in actual_dict.items()}
+        self.assertEqual(actual_dict, expected_dict)
 
     def test_reload_method_no_file(self):
         """Tests that the reload method does not raise an error when

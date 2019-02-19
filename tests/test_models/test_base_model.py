@@ -48,9 +48,9 @@ class Test_BaseModel(unittest.TestCase):
         entries = {'id': '124', 'created_at': date, 'updated_at': date}
         a = BaseModel(**entries)
         entries['created_at'] = datetime.strptime(
-                entries['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+            entries['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
         entries['updated_at'] = datetime.strptime(
-                entries['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+            entries['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
         expected = '[BaseModel] (124) {}'.format(entries)
         actual = str(a)
         self.assertEqual(expected, actual)
@@ -165,6 +165,17 @@ class Test_BaseModel(unittest.TestCase):
             a = BaseModel(element)
             self.assertEqual(BaseModel, type(a))
 
-    def test_create_instance_invalid_dict(self):
-        """Create an instance of BaseModel with invalid inputs"""
-        pass
+    def test_check_save_value(self):
+        """Check that save updates value when save method is called"""
+        a = BaseModel()
+        before = a.updated_at.isoformat()
+        a.save()
+        after = a.updated_at.isoformat()
+        self.assertNotEqual(before, after)
+
+    def test_new_in_storage(self):
+        """Checks that a new instance of an object is saved to __objects"""
+        a = BaseModel()
+        storage = FileStorage()
+        a_key = 'BaseModel' + '.' + a.id
+        self.assertEqual(True, a_key in storage.all().keys())
