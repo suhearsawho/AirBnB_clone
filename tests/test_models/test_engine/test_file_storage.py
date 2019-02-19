@@ -31,7 +31,8 @@ class TestFileStorage(unittest.TestCase):
             is created"""
         a = FileStorage()
         fake_file = 'fake.json'
-        a.__file_path = fake_file
+        a._FileStorage__file_path = fake_file
+        a.save()
 
         b = BaseModel()
         b.save()
@@ -42,9 +43,10 @@ class TestFileStorage(unittest.TestCase):
         """Tests that the class attribute __objects is used in the case that
             an instance attribute with the same name has been created"""
         storage = FileStorage()
-        storage.__objects = {}
+        storage._FileStorage__objects = {}
 
-        self.assertNotEqual(id(storage.__objects), id(storage.all()))
+        self.assertNotEqual(id(storage._FileStorage__objects),
+                            id(storage.all()))
 
     def test_all_method_when_empty(self):
         """Tests the return value of all when no objects have been saved"""
