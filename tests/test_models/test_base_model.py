@@ -32,8 +32,6 @@ class Test_BaseModel(unittest.TestCase):
         self.assertEqual(datetime, type(a.created_at))
         self.assertEqual(datetime, type(a.updated_at))
 
-    # TODO: Test when BASEMODEL is given parameters upon instantiation
-
     def test_unique_id_values(self):
         """Tests that each instantiation of an object produces a unique ID"""
         a = BaseModel()
@@ -46,7 +44,16 @@ class Test_BaseModel(unittest.TestCase):
 
     def test_str_output(self):
         """Tests that str is printing in the correct format"""
-        a = BaseModel()
+        date = '2017-09-28T21:05:54.119427'
+        entries = {'id': '124', 'created_at': date, 'updated_at': date}
+        a = BaseModel(**entries)
+        entries['created_at'] = datetime.strptime(
+                entries['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+        entries['updated_at'] = datetime.strptime(
+                entries['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+        expected = '[BaseModel] (124) {}'.format(entries)
+        actual = str(a)
+        self.assertEqual(expected, actual)
 
     def test_save_method(self):
         """Tests that save updates the time"""
@@ -92,6 +99,12 @@ class Test_BaseModel(unittest.TestCase):
         actual = new.to_dict()
         self.assertDictEqual(expected, actual)
         self.assertIsNot(expected, actual)
+
+        expected = BaseModel().to_dict()
+        expected['number'] = 5
+        new = BaseModel(**expected)
+        actual = new.to_dict()
+        self.assertDictEqual(expected, actual)
 
     def test_create_instance_partial_input_valid(self):
         """Create an instance of BaseModel from dictionary input
