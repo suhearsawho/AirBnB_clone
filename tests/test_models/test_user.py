@@ -6,6 +6,7 @@ from models.base_model import BaseModel
 from models.user import User
 from models.engine.file_storage import FileStorage
 
+
 class Test_BaseModel(unittest.TestCase):
     """test cases for User obj"""
 
@@ -64,7 +65,6 @@ class Test_BaseModel(unittest.TestCase):
         self.assertEqual(str, type(capture['updated_at']))
         self.assertEqual(str, type(capture['created_at']))
 
-
     def test_unique_values(self):
         """test each user has unique values"""
         user1 = User()
@@ -111,8 +111,8 @@ class Test_BaseModel(unittest.TestCase):
     def test_create(self):
         """create instance of user from kwargs"""
         storage = FileStorage()
-        user1 = User(created_at = "2017-06-14T22:31:03.285259", heads = 4,
-                      updated_at = "2017-06-14T22:31:03.285259", id = 3434)
+        user1 = User(created_at="2017-06-14T22:31:03.285259", heads=4,
+                     updated_at="2017-06-14T22:31:03.285259", id=3434)
         self.assertEqual(user1.heads, 4)
         _dict = storage.all()  # store __object dict
         test_list = [k for k in _dict.keys()]
@@ -125,7 +125,7 @@ class Test_BaseModel(unittest.TestCase):
         user1 = User(None)
         self.assertEqual(str, type(user1.id))
         self.assertEqual(datetime, type(user1.created_at))
-        user2 = User(id = "ball")
+        user2 = User(id="ball")
         self.assertEqual(str, type(user2.id))
         self.assertEqual(datetime, type(user2.created_at))
 
