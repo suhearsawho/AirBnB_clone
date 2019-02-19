@@ -119,8 +119,50 @@ class Test_BaseModel(unittest.TestCase):
         key = "User." + str(user1.id)
         self.assertIn(key, test_list)
 
-"""
     def test_invalid_initialization(self):
-create User instance in illegal ways
+        """create User instance in illegal ways"""
+        storage = FileStorage()
         user1 = User(None)
-        user2 = User(id = "ball")"""
+        self.assertEqual(str, type(user1.id))
+        self.assertEqual(datetime, type(user1.created_at))
+        user2 = User(id = "ball")
+        self.assertEqual(str, type(user2.id))
+        self.assertEqual(datetime, type(user2.created_at))
+
+    def test_create_instance_partial_input_valid(self):
+        """Create an instance of BaseModel from dictionary input
+        that does not have all common attributes of
+        BaseModel class"""
+
+        # Only id is given
+        expected = 5
+        a = User(id=expected)
+        self.assertEqual(a.id, expected)
+
+        # Only updated_at is given
+        expected = '2017-09-28T21:03:54.052302'
+        a = User(updated_at=expected)
+        actual = a.to_dict()
+        self.assertEqual(expected, actual['updated_at'])
+
+        # Only created_at is given
+        expected = '2017-09-28T21:03:54.052302'
+        a = User(created_at=expected)
+        actual = a.to_dict()
+        self.assertEqual(expected, actual['created_at'])
+
+        # Variables other than the three listed were given
+        expected = 'hi'
+        a = User(random=expected)
+        self.assertEqual(a.random, expected)
+
+    def test_create_instance_empty_dict(self):
+        """Create an instance of BaseModel when no dictionary is used"""
+        inputs = [10, 10.2, (10, ), [1], 'str', True, None]
+        for element in inputs:
+            a = User(element)
+            self.assertEqual(User, type(a))
+
+    def test_console_show(self):
+        """test show method in the console"""
+        
