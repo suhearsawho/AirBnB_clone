@@ -49,4 +49,10 @@ class Test_BaseModel(unittest.TestCase):
         my_user = User()
         test_dict = my_user.to_dict()
         self.assertEqual(dict, type(test_dict))
-        self.assertIn(
+
+        capture = {k: v for k, v in my_user.__dict__.items()}
+        capture['__class__'] = 'User'
+        capture['updated_at'] = capture['updated_at'].isoformat()
+        capture['created_at'] = capture['created_at'].isoformat()
+        actual = my_user.to_dict()
+        self.assertDictEqual(capture, actual)
