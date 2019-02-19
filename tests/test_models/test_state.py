@@ -95,8 +95,8 @@ class Test_BaseModel(unittest.TestCase):
     def test_create(self):
         """create instance of State from kwargs"""
         storage = FileStorage()
-        state1 = State(created_at = "2017-06-14T22:31:03.285259", heads = 4,
-                      updated_at = "2017-06-14T22:31:03.285259", id = 3434)
+        state1 = State(created_at="2017-06-14T22:31:03.285259", heads=4,
+                       updated_at="2017-06-14T22:31:03.285259", id=3434)
         self.assertEqual(state1.heads, 4)
         _dict = storage.all()  # store __object dict
         test_list = [k for k in _dict.keys()]
@@ -111,7 +111,7 @@ class Test_BaseModel(unittest.TestCase):
         state1 = State(None)
         self.assertEqual(str, type(state1.id))
         self.assertEqual(datetime, type(state1.created_at))
-        state2 = State(id = "ball")
+        state2 = State(id="ball")
         self.assertEqual(str, type(state2.id))
         self.assertEqual(datetime, type(state2.created_at))
 
