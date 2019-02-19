@@ -184,7 +184,6 @@ class HBNBCommand(cmd.Cmd):
                             arguments += element
 
         final = class_name + ' ' + arguments
-        print(final)
         if cmd_name == 'all':
             self.do_all(final)
         elif cmd_name == 'show':
@@ -193,6 +192,8 @@ class HBNBCommand(cmd.Cmd):
             self.do_destroy(final)
         elif cmd_name == 'update':
             self.do_update(final)
+        elif cmd_name == 'count':
+            print(len(storage.all()))
 
     def emptyline(self):
         """do nothing on empty line"""

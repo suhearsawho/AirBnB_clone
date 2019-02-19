@@ -69,6 +69,14 @@ class TestFileStorage(unittest.TestCase):
         actual = FileStorage().all()
         self.assertDictEqual(expected, actual)
 
+    def test_all_method_instance_class(self):
+        """Tests that the class attribute is always being returned"""
+        storage = FileStorage()
+        storage.__objects = {'fake': 'entry'}
+        self.assertIsNot(storage.__objects, storage.all())
+
+        self.assertDictEqual(storage.all(), {})
+
     def test_new_method(self):
         """Tests that new sets the value in __objects with the key
             in the form <obj class name>.id"""
