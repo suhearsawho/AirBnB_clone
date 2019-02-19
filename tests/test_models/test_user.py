@@ -56,3 +56,26 @@ class Test_BaseModel(unittest.TestCase):
         capture['created_at'] = capture['created_at'].isoformat()
         actual = my_user.to_dict()
         self.assertDictEqual(capture, actual)
+        actual['cat'] = 2
+        self.assertEqual(actual['cat'], 2)
+
+    def test_unique_values(self):
+        """test each user has unique values"""
+        user1 = User()
+        user2 = User()
+        self.assertNotEqual(user1.id, user2.id)
+        self.assertNotEqual(user1.created_at, user2.created_at)
+        self.assertNotEqual(user1.updated_at, user2.updated_at)
+
+    def test_str_output(self):
+        """Tests that str is printing in the correct format"""
+        date = '2017-09-28T21:05:54.119427'
+        entries = {'id': '124', 'created_at': date, 'updated_at': date}
+        a = BaseModel(**entries)
+        entries['created_at'] = datetime.strptime(
+            entries['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+        entries['updated_at'] = datetime.strptime(
+            entries['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+        expected = '[BaseModel] (124) {}'.format(entries)
+        actual = str(a)
+        self.assertEqual(expected, actual)
