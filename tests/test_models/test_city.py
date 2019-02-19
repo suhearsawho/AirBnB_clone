@@ -30,6 +30,7 @@ class Test_BaseModel(unittest.TestCase):
         """test that to_dict creates dict"""
         my_city = City()
         my_city.name = "bobo"
+        my_city.state_id = "bubble"
         test_dict = my_city.to_dict()
         self.assertEqual(dict, type(test_dict))
 
@@ -42,6 +43,7 @@ class Test_BaseModel(unittest.TestCase):
         actual['cat'] = 2
         self.assertEqual(actual['cat'], 2)
         self.assertEqual(actual['name'], "bobo")
+        self.assertEqual(actual['state_id'], "bubble")
 
         """test type of values in to_dict"""
         self.assertEqual(str, type(capture['__class__']))
@@ -56,6 +58,7 @@ class Test_BaseModel(unittest.TestCase):
         self.assertNotEqual(city1.created_at, city2.created_at)
         self.assertNotEqual(city1.updated_at, city2.updated_at)
         self.assertEqual(city1.name, city2.name)
+        self.assertEqual(city1.state_id, city2.state_id)
 
     def test_str_output(self):
         """Tests that str is printing in the correct format"""
