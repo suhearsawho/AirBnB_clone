@@ -55,6 +55,14 @@ class HBNBCommand(cmd.Cmd):
                         final += i
         return final
 
+    @staticmethod
+    def remove_double_quotes(raw_str):
+        final = ''
+        for i in raw_str:
+            if i not in ['"', "'"]:
+                final += i
+        return final
+
     def do_show(self, arg):
         """Show the specified instance of the class"""
         gary = parse(arg)
@@ -149,51 +157,63 @@ class HBNBCommand(cmd.Cmd):
                     key = gary[0] + "." + gary[1]
                     if key in test_dict:
                         arg_type = self.determine_type(gary[3])
+                        final_key = self.remove_double_quotes(gary[2])
                         if arg_type == 'str':
-                            final = self.string_input(gary)
-                            setattr(test_dict[key], gary[2], final)
+                            final_value = self.string_input(gary)
+                            setattr(test_dict[key], final_key, final_value)
                         elif arg_type == 'int':
-                            setattr(test_dict[key], gary[2], int(gary[3]))
+                            setattr(test_dict[key], final_key, int(gary[3]))
                         elif arg_type == 'float':
-                            setattr(test_dict[key], gary[2], float(gary[3]))
+                            setattr(test_dict[key], final_key, float(gary[3]))
                         test_dict[key].save()
 
     def default(self, arg):
         """Default behavior when argument format is not recognized by cmd"""
         class_name = ''
         cmd_name = ''
+        id_name = ''
         arguments = ''
 
-        before_period = True
-        before_arg = True
+        incomplete_class = True
+        incomplete_cmd = True
+        incomplete_id = True
         for element in arg:
-            if before_period is True:
+            if incomplete_class is True:
                 if element == '.':
-                    before_period = False
+                    incomplete_class = False
                 else:
                     class_name += element
-            else:
-                if before_arg is True:
-                    if element == '(':
-                        before_arg = False
-                    else:
-                        cmd_name += element
+            elif incomplete_cmd is True:
+                if element == '(':
+                    incomplete_cmd = False
                 else:
-                    if element != ')':
-                        if element not in ['"', "'"]:
-                            arguments += element
+                    cmd_name += element
+            elif incomplete_id is True:
+                if element in [')', ',']:
+                    incomplete_id = False
+                elif element not in ['"', "'"]:
+                    id_name += element
+            else:
+                if element not in [',', "'", ')']:
+                    arguments += element
 
-        final = class_name + ' ' + arguments
+        final = class_name + ' ' + id_name + ' ' + arguments
+        print('This is my final argument', arguments)
+        print('THIS IS MY FINAL STR', final)
+
         if cmd_name == 'all':
             self.do_all(final)
         elif cmd_name == 'show':
+            print('calling show')
             self.do_show(final)
         elif cmd_name == 'destroy':
             self.do_destroy(final)
         elif cmd_name == 'update':
             self.do_update(final)
         elif cmd_name == 'count':
-            print(len(storage.all()))
+            count = {k: v for k, v in storage.all().items()
+                     if v.__class__.__name__ == class_name}
+            print(len(count.keys()))
 
     def emptyline(self):
         """do nothing on empty line"""
