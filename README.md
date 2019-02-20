@@ -127,11 +127,13 @@ Once the command ./console.py has been typed into the terminal, the user will be
 	* Place.show(0aafa26e-cacb-4669-be7d-791d03f9764e)
 * destroy
 	* destroy BaseModel 0aafa26e-cacb-4669-be7d-791d03f9764b
-	* City.destroy(0aafa26e-cacb-4669-be7d-791d03f9764b
+	* City.destroy(0aafa26e-cacb-4669-be7d-791d03f9764b)
 * all
 	* all BaseModel
 	* all
 	* Amenity.all()
 * update
-
+	* update BaseModel
+	* update BaseModel 0aafa26e-cacb-4669-be7d-791d03f9764b
 * count
+	* 
