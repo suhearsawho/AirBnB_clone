@@ -198,13 +198,9 @@ class HBNBCommand(cmd.Cmd):
                     arguments += element
 
         final = class_name + ' ' + id_name + ' ' + arguments
-        print('This is my final argument', arguments)
-        print('THIS IS MY FINAL STR', final)
-
         if cmd_name == 'all':
             self.do_all(final)
         elif cmd_name == 'show':
-            print('calling show')
             self.do_show(final)
         elif cmd_name == 'destroy':
             self.do_destroy(final)
