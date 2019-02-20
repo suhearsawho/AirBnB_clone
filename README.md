@@ -136,4 +136,4 @@ Once the command ./console.py has been typed into the terminal, the user will be
 	* update BaseModel
 	* update BaseModel 0aafa26e-cacb-4669-be7d-791d03f9764b
 * count
-	* 
+	* User.count()
