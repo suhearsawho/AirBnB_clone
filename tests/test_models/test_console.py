@@ -52,16 +52,22 @@ class Test_BaseModel(unittest.TestCase):
             cmd_obj.onecmd("all User")
         print(f.getvalue())
         self.assertNotEqual(len(f.getvalue()), save_len)
-"""
+
     def test_show(self):
         cmd_obj = HBNBCommand()
         f = io.StringIO()
-        new_model1 = BaseModel()
+        new_model1 = User()
+        with redirect_stdout(f):
+            cmd_obj.onecmd("Show User")
+        save_len = len(f.getvalue())
+        self.assertEqual(type(f.getvalue()), str)
         new_model2 = BaseModel()
         with redirect_stdout(f):
             cmd_obj.onecmd("Show User")
-        self.assertEqual(type(f.getvalue()), str)
+        self.assertNotEqual(len(f.getvalue()), save_len)
 
+
+"""
     def test_destroy(self):
         cmd_obj = HBNBCommand()
         f = io.StringIO()
