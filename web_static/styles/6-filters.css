@@ -1,0 +1,107 @@
+.filters {
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+
+.filters button {
+    font-size: 18px;
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    height: 48px;
+    width: 20%;
+    border: 0px;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.filters button:hover {
+    opacity: 0.9;
+}
+
+.filters .locations {
+    height: 100%;
+    width: 25%;
+    border-right: 1px solid #DDDDDD;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.filters .amenities {
+    height: 100%;
+    width: 25%;
+    position: absolute;
+    left: 25%;
+    top: 0;
+}
+
+.filters h3 {
+    font-weight: 600;
+    margin: 0%;
+    padding: 0%;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    margin-left: 15%;
+}
+
+.filters h4 {
+    font-weight: 400;
+    font-size: 14px;
+    margin: 0%;
+    padding: 0%;
+    margin-left: 15%;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.amenities li {
+    padding-left: 10px;
+    padding-bottom: 5px;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+
+.locations li {
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.popover h2 {
+    padding-left: 10px;
+    padding-bottom: 0px;
+    padding-top: 5px;
+    margin: 0px;
+}
+
+.popover {
+    background-color: #FAFAFA;
+    width: 100%;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    position: absolute;
+    top: 100%;
+    display: none;
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 15px;
+}
+
+.amenities .popover {
+    padding-bottom: 5px;
+}
+
+.filters .locations:hover .popover {
+    display: block;
+}
+
+.filters .amenities:hover .popover {
+    display: block;
+}
