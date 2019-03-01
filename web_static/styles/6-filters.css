@@ -4,6 +4,9 @@
     width: 100%;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
+    position: relative;
+    margin: 0;
+    padding: 0;
 }
 
 .filters button {
@@ -98,10 +101,8 @@ ul {
     padding-bottom: 5px;
 }
 
-.filters .locations:hover .popover {
-    display: block;
-}
-
+.filters .locations:hover .popover,
 .filters .amenities:hover .popover {
     display: block;
+    z-index: 10;
 }
