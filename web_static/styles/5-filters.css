@@ -16,6 +16,7 @@
     height: 48px;
     width: 20%;
     border: 0px;
+    border-radius: 4px;
     position: absolute;
     right: 30px;
     top: 50%;

@@ -16,6 +16,7 @@
     height: 48px;
     width: 20%;
     border: 0px;
+    border-radius: 4px;
     position: absolute;
     right: 30px;
     top: 50%;
@@ -62,26 +63,33 @@
 
 ul {
     list-style-type: none;
+    padding: 0px;
+    margin: 0px;
 }
 
 .amenities li {
-    padding-left: 10px;
-    padding-bottom: 5px;
+    padding: 0px;
+    margin: 0px;
+    padding-left: 30px;
+    padding-bottom: 10px;
     padding-top: 10px;
     padding-right: 10px;
 }
 
 .locations li {
     padding-left: 10px;
+    padding: 0px;
+    margin: 0px;
     padding-bottom: 10px;
     padding-top: 10px;
 }
 
 .popover h2 {
     padding-left: 10px;
+    padding: 0px;
+    margin: 0px;
     padding-bottom: 0px;
     padding-top: 5px;
-    margin: 0px;
 }
 
 .popover {
